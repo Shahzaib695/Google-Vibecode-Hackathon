@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Orbit - Live Tracking</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-primary": "#ffb3b0",
+                    "tertiary-fixed-dim": "#ffb95a",
+                    "secondary-fixed-dim": "#a3c9ff",
+                    "surface-tint": "#ae2f34",
+                    "tertiary-fixed": "#ffddb6",
+                    "tertiary": "#845400",
+                    "on-secondary": "#ffffff",
+                    "surface-container-highest": "#e1e2e5",
+                    "primary-container": "#ff6b6b",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#410006",
+                    "on-tertiary-fixed-variant": "#643f00",
+                    "primary-fixed": "#ffdad8",
+                    "on-background": "#191c1e",
+                    "surface-bright": "#f8f9fc",
+                    "inverse-on-surface": "#f0f1f4",
+                    "on-tertiary-fixed": "#2a1800",
+                    "secondary-container": "#55a3ff",
+                    "on-primary-container": "#6d0010",
+                    "secondary": "#0060ab",
+                    "surface": "#f8f9fc",
+                    "surface-container-low": "#f2f3f6",
+                    "on-error": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "on-surface-variant": "#584140",
+                    "on-secondary-fixed": "#001c39",
+                    "on-secondary-container": "#003868",
+                    "primary": "#ae2f34",
+                    "outline": "#8c706f",
+                    "secondary-fixed": "#d3e3ff",
+                    "surface-dim": "#d9dadd",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed-variant": "#004883",
+                    "surface-container": "#edeef1",
+                    "on-tertiary-container": "#4a2d00",
+                    "error-container": "#ffdad6",
+                    "background": "#f8f9fc",
+                    "surface-variant": "#e1e2e5",
+                    "outline-variant": "#e0bfbd",
+                    "tertiary-container": "#d28d22",
+                    "primary-fixed-dim": "#ffb3b0",
+                    "surface-container-high": "#e7e8eb",
+                    "on-surface": "#191c1e",
+                    "inverse-surface": "#2e3133",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed-variant": "#8c1520"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "section-gap": "64px",
+                    "gutter": "16px",
+                    "base": "8px",
+                    "container-padding-desktop": "40px",
+                    "container-padding-mobile": "20px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "display-lg-mobile": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-base": ["Inter"],
+                    "label-mono": ["JetBrains Mono"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-base": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-mono": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        /* Essential base overrides to ensure layout constraints */
+        html, body { height: 100%; margin: 0; overflow: hidden; background-color: #f8f9fc; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col h-screen w-full antialiased font-body-base text-body-base text-on-surface bg-background">
+<!-- MAP SECTION (55% Height) -->
+<div class="relative h-[486px] w-full shrink-0 bg-surface-container-low overflow-hidden">
+<!-- Map Background (Placeholder using data-location) -->
+<div class="absolute inset-0 w-full h-full bg-cover bg-center opacity-80" data-location="San Francisco Minimalist Light Map Route View" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBl_AWPgKXefuvtZaxX0mEJ_NZgZZZAwm0AwTp44xUOIkz4SRwqGyPge0_P6CczHOm_EeVuONrb6oQe1HQhJVfOou03lcWD334ZmiyXoWrauvUic_aQ-NQPwLrDWFOd8P-w1SlL06zJSzTf2XGuZzEjUSHLPrvRUvhXA_k9dgg88gGfuRldkspWSfg_5hnl1u_5sHvgMjlIYz5poFnOeY7ApXK1LZtInlIQ61bit64SwQ5DMa0SHp6pfVcgFICk5g-87P2WDeIOMQwO');">
+</div>
+<!-- Map Gradient Overlay to ensure contrast at edges -->
+<div class="absolute inset-0 bg-gradient-to-b from-surface-bright/40 via-transparent to-surface-bright/80 pointer-events-none"></div>
+<!-- Floating Top Bar (Contextual/Transactional) -->
+<div class="absolute top-0 left-0 w-full p-gutter flex justify-between items-center z-20">
+<button class="w-10 h-10 rounded-full bg-surface-container-lowest/80 backdrop-blur-md shadow-sm border border-white/50 flex items-center justify-center text-on-surface hover:bg-surface-container-lowest transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+</div>
+<!-- Floating ETA Badge -->
+<div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+<div class="flex items-center gap-2 bg-surface-container-lowest/90 backdrop-blur-xl border border-white px-5 py-3 rounded-full shadow-[0_8px_24px_rgba(0,0,0,0.06)]">
+<span class="material-symbols-outlined text-secondary-container" style="font-variation-settings: 'FILL' 1;">schedule</span>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-on-surface" style="font-size: 18px; line-height: 20px;">12 min</span>
+<span class="font-label-mono text-label-mono text-on-surface-variant">AWAY</span>
+</div>
+</div>
+</div>
+<!-- SVG Route Path -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none z-10" preserveaspectratio="none" viewbox="0 0 100 100">
+<!-- Dashed Route Line -->
+<path class="opacity-60" d="M 30,70 Q 50,60 60,40 T 70,25" fill="none" stroke="#0060ab" stroke-dasharray="1.5, 1.5" stroke-width="0.8"></path>
+<!-- Moving Dot Representation (Static) -->
+<circle cx="58" cy="42" fill="#0060ab" r="1.2"></circle>
+<circle cx="58" cy="42" fill="#0060ab" opacity="0.3" r="3"></circle>
+</svg>
+<!-- Provider Pin (Blue with static pulse rings) -->
+<div class="absolute top-[25%] left-[70%] -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center">
+<!-- Pulse rings (static representation) -->
+<div class="absolute w-12 h-12 bg-secondary-container/20 rounded-full"></div>
+<div class="absolute w-8 h-8 bg-secondary-container/40 rounded-full"></div>
+<!-- Core Pin -->
+<div class="w-5 h-5 bg-secondary border-[3px] border-surface-container-lowest rounded-full shadow-md flex items-center justify-center">
+<div class="w-1.5 h-1.5 bg-surface-container-lowest rounded-full"></div>
+</div>
+</div>
+<!-- User Pin (Coral) -->
+<div class="absolute top-[70%] left-[30%] -translate-x-1/2 -translate-y-1/2 z-20">
+<div class="w-4 h-4 bg-primary-container border-[3px] border-surface-container-lowest rounded-full shadow-md"></div>
+</div>
+</div>
+<!-- SLIDE-UP PANEL (45% Height) -->
+<div class="relative flex-1 bg-surface-bright/95 backdrop-blur-[24px] rounded-t-[2rem] shadow-[0_-12px_40px_rgba(0,0,0,0.08)] -mt-8 z-30 flex flex-col pt-3 px-gutter pb-8 border-t border-white/60">
+<!-- Drag Handle -->
+<div class="w-12 h-1.5 bg-surface-variant rounded-full mx-auto mb-6 shrink-0"></div>
+<div class="flex flex-col h-full justify-between">
+<!-- Top Section: Provider Info & Status -->
+<div class="flex items-start justify-between mb-8">
+<div class="flex items-center gap-4">
+<div class="relative w-14 h-14 rounded-full border-2 border-white shadow-sm overflow-hidden shrink-0">
+<div class="absolute inset-0 bg-surface-variant animate-pulse"></div>
+<img alt="Provider Avatar" class="w-full h-full object-cover relative z-10" data-alt="A close-up, professionally lit headshot of a confident, friendly male service provider in a bright, modern setting. He has a warm smile and is wearing casual professional attire. The lighting is soft and high-key, complementing the luminous minimalism aesthetic. The background is a slightly out-of-focus pristine white environment with subtle hints of glass structures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwXZV9c1ZAk-qcyXlWCjnv_QM75OrzFB90UvInzUN9C-d6KR7khFMAUn8X9tZKh_O5W0XoH1dAaF-kExmcdduzgx1EFBAg7LO6mrKOpJlD24H4A3-hTx6rVUOdu7jklD9mCT3Ji7mX0Cd-9q7OGxe5pkK_qHOjtkUaWd6rR1oWjXwWgdw51xPS4IEKRK72LO89FL3tzKkkJlSb1wXYVXkz8dN8UDp02_w5fHhuA3sCJ85k1w9kMG5anLHqUgKXsJlQfKYB_rMOlTg_"/>
+</div>
+<div class="flex flex-col">
+<h2 class="font-headline-md text-headline-md text-on-surface">Alex Rivera</h2>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Orbit Standard</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="material-symbols-outlined text-tertiary-fixed-dim" style="font-size: 14px; font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-mono text-label-mono text-on-surface">4.9</span>
+</div>
+</div>
+</div>
+<!-- Status Chip -->
+<div class="bg-tertiary-container/15 border border-tertiary-container/30 px-3 py-1.5 rounded-lg flex items-center gap-1.5 shrink-0">
+<div class="w-2 h-2 rounded-full bg-tertiary"></div>
+<span class="font-label-mono text-label-mono text-tertiary uppercase tracking-wider">En Route</span>
+</div>
+</div>
+<!-- Middle Section: Progress Tracker -->
+<div class="relative flex items-center justify-between w-full px-2 mb-8">
+<!-- Connecting Line Base -->
+<div class="absolute left-6 right-6 top-1/2 -translate-y-1/2 h-0.5 bg-surface-container-high -z-10"></div>
+<!-- Connecting Line Progress -->
+<div class="absolute left-6 w-[50%] top-1/2 -translate-y-1/2 h-0.5 bg-secondary -z-10"></div>
+<!-- Step 1: Booked (Completed) -->
+<div class="flex flex-col items-center gap-2 bg-surface-bright z-10 px-1">
+<div class="w-6 h-6 rounded-full bg-secondary text-on-secondary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined" style="font-size: 14px; font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-label-mono text-label-mono text-on-surface" style="font-size: 10px;">Booked</span>
+</div>
+<!-- Step 2: Accepted (Completed) -->
+<div class="flex flex-col items-center gap-2 bg-surface-bright z-10 px-1">
+<div class="w-6 h-6 rounded-full bg-secondary text-on-secondary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined" style="font-size: 14px; font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="font-label-mono text-label-mono text-on-surface" style="font-size: 10px;">Accepted</span>
+</div>
+<!-- Step 3: En Route (Active) -->
+<div class="flex flex-col items-center gap-2 bg-surface-bright z-10 px-1">
+<div class="w-6 h-6 rounded-full bg-surface-container-lowest border-2 border-secondary flex items-center justify-center shadow-sm">
+<div class="w-2.5 h-2.5 rounded-full bg-secondary"></div>
+</div>
+<span class="font-label-mono text-label-mono text-secondary font-bold" style="font-size: 10px;">En Route</span>
+</div>
+<!-- Step 4: Arrived (Upcoming) -->
+<div class="flex flex-col items-center gap-2 bg-surface-bright z-10 px-1">
+<div class="w-6 h-6 rounded-full bg-surface-container border-2 border-surface-container-highest flex items-center justify-center">
+</div>
+<span class="font-label-mono text-label-mono text-on-surface-variant" style="font-size: 10px;">Arrived</span>
+</div>
+</div>
+<!-- Bottom Section: Quick Actions & Footer -->
+<div class="flex flex-col gap-4 mt-auto">
+<!-- Action Buttons Grid -->
+<div class="grid grid-cols-3 gap-3">
+<button class="flex flex-col items-center justify-center gap-1.5 py-3 rounded-xl bg-primary-container/10 border border-primary-container/20 text-primary hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">call</span>
+<span class="font-label-mono text-label-mono">Call</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-1.5 py-3 rounded-xl bg-secondary-container/10 border border-secondary-container/20 text-secondary hover:bg-secondary-container/20 transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">chat</span>
+<span class="font-label-mono text-label-mono">Chat</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-1.5 py-3 rounded-xl bg-surface-container-low border border-surface-variant text-on-surface-variant hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+<span class="font-label-mono text-label-mono">Notify</span>
+</button>
+</div>
+<!-- Safety Link -->
+<button class="w-full flex items-center justify-center gap-2 py-2 mt-2 text-secondary hover:text-secondary-fixed-variant transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">share</span>
+<span class="font-label-mono text-label-mono uppercase tracking-wider font-bold">Share tracking link</span>
+</button>
+</div>
+</div>
+</div>
+</body></html>

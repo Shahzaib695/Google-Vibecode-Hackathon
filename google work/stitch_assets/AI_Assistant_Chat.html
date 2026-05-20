@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Orbit - AI Service Request Chat</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&amp;family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-primary": "#ffb3b0",
+                    "tertiary-fixed-dim": "#ffb95a",
+                    "secondary-fixed-dim": "#a3c9ff",
+                    "surface-tint": "#ae2f34",
+                    "tertiary-fixed": "#ffddb6",
+                    "tertiary": "#845400",
+                    "on-secondary": "#ffffff",
+                    "surface-container-highest": "#e1e2e5",
+                    "primary-container": "#ff6b6b",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#410006",
+                    "on-tertiary-fixed-variant": "#643f00",
+                    "primary-fixed": "#ffdad8",
+                    "on-background": "#191c1e",
+                    "surface-bright": "#f8f9fc",
+                    "inverse-on-surface": "#f0f1f4",
+                    "on-tertiary-fixed": "#2a1800",
+                    "secondary-container": "#55a3ff",
+                    "on-primary-container": "#6d0010",
+                    "secondary": "#0060ab",
+                    "surface": "#f8f9fc",
+                    "surface-container-low": "#f2f3f6",
+                    "on-error": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "on-surface-variant": "#584140",
+                    "on-secondary-fixed": "#001c39",
+                    "on-secondary-container": "#003868",
+                    "primary": "#ae2f34",
+                    "outline": "#8c706f",
+                    "secondary-fixed": "#d3e3ff",
+                    "surface-dim": "#d9dadd",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed-variant": "#004883",
+                    "surface-container": "#edeef1",
+                    "on-tertiary-container": "#4a2d00",
+                    "error-container": "#ffdad6",
+                    "background": "#f8f9fc",
+                    "surface-variant": "#e1e2e5",
+                    "outline-variant": "#e0bfbd",
+                    "tertiary-container": "#d28d22",
+                    "primary-fixed-dim": "#ffb3b0",
+                    "surface-container-high": "#e7e8eb",
+                    "on-surface": "#191c1e",
+                    "inverse-surface": "#2e3133",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed-variant": "#8c1520"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "section-gap": "64px",
+                    "gutter": "16px",
+                    "base": "8px",
+                    "container-padding-desktop": "40px",
+                    "container-padding-mobile": "20px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "display-lg-mobile": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-base": ["Inter"],
+                    "label-mono": ["JetBrains Mono"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-base": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-mono": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-base antialiased min-h-screen flex flex-col pt-16 md:pt-20 pb-24 md:pb-0 relative overflow-hidden">
+<!-- Ambient background glows -->
+<div class="fixed inset-0 pointer-events-none z-[-1]">
+<div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary-container/10 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary-container/10 rounded-full blur-[100px]"></div>
+</div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-gutter h-16 bg-surface/80 dark:bg-surface-container/80 backdrop-blur-3xl bg-white/50 dark:bg-surface-container/50 border-b border-white/20 shadow-sm shadow-primary/5 md:hidden">
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-primary dark:text-primary-fixed-dim hover:bg-surface-container-low transition-colors group">
+<span class="material-symbols-outlined group-hover:scale-95 duration-200">arrow_back</span>
+</button>
+<div class="font-display-lg-mobile text-display-lg-mobile font-bold tracking-tighter text-primary dark:text-primary-fixed-dim">
+            AI Assistant
+        </div>
+<div class="flex items-center space-x-2 bg-surface-container-low rounded-full p-1 border border-white/50">
+<button class="px-3 py-1 rounded-full bg-surface-container-lowest shadow-sm font-label-mono text-label-mono text-primary font-bold">EN</button>
+<button class="px-3 py-1 rounded-full font-label-mono text-label-mono text-on-surface-variant">UR</button>
+</div>
+</header>
+<!-- Main Chat Canvas -->
+<main class="flex-grow flex flex-col md:flex-row w-full max-w-7xl mx-auto md:px-container-padding-desktop">
+<!-- Navigation Drawer (Desktop) -->
+<nav class="hidden md:flex flex-col h-screen fixed inset-y-0 left-0 z-[60] py-8 w-80 rounded-r-lg bg-surface-bright dark:bg-surface-dim bg-surface-container-lowest dark:bg-surface-container shadow-2xl">
+<div class="px-8 pb-8 flex items-center space-x-4 border-b border-surface-container-low">
+<img alt="User avatar" class="w-12 h-12 rounded-full object-cover shadow-sm" data-alt="A professional headshot of a young woman with a warm smile, wearing a dark blazer over a light shirt. The lighting is soft and natural, emphasizing a modern, professional, and approachable aesthetic within a bright, airy environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX5Mu4s7Z-yPFI_S9yN33VqfQvZCsSgddP3YKDiI8laoWaDeo_HXKzIHxYm20FPSdRebOJHI3ohwxkIbV1_srsImRtzxfp6UEkcT2FqhuGfTVBwIdp3bESejrGKNaf_ioYF2kDOnIrL20Le2397L-4-1f3b9M7hWSP_mINWVUu0HYeKg4lLOQdrTuX4HaO5xT_HP3056HF2ZTctB_jt3gc31bfC8JM_EbGeoIs0sNQaHk3Dju8M7wehq4TiGLMdk4Dgi-ANQ2k96vf"/>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface font-bold">Alex Rivera</h2>
+<p class="font-label-mono text-label-mono text-on-surface-variant">Orbit Premium Explorer</p>
+</div>
+</div>
+<div class="flex-grow pt-4 flex flex-col space-y-2">
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mr-4">robot_2</span>
+<span class="font-body-base text-body-base">My Agents</span>
+</a>
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mr-4">card_membership</span>
+<span class="font-body-base text-body-base">Subscriptions</span>
+</a>
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mr-4">settings</span>
+<span class="font-body-base text-body-base">Settings</span>
+</a>
+<a class="flex items-center px-6 py-3 text-on-surface-variant hover:bg-surface-container-high rounded-full mx-2 hover:translate-x-1 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined mr-4">help</span>
+<span class="font-body-base text-body-base">Help Support</span>
+</a>
+</div>
+</nav>
+<!-- Chat Area -->
+<div class="flex-grow flex flex-col md:ml-80 h-[calc(100vh-4rem)] md:h-screen relative p-4 md:p-8 overflow-y-auto space-y-6">
+<!-- AI Intro -->
+<div class="flex flex-col items-center justify-center py-10 space-y-4">
+<div class="w-16 h-16 bg-primary-container/20 rounded-full flex items-center justify-center mb-2 shadow-[0_0_20px_rgba(255,107,107,0.2)]">
+<span class="material-symbols-outlined text-4xl text-primary" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<h1 class="font-headline-md text-headline-md-mobile md:text-headline-md text-on-surface text-center max-w-sm">How can I help you today?</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-center max-w-md">I can book services, find information, or manage your requests in English or Urdu.</p>
+</div>
+<!-- Chat Bubbles -->
+<div class="flex flex-col space-y-6 pb-32">
+<!-- User Message -->
+<div class="flex justify-end">
+<div class="max-w-[85%] md:max-w-[70%] bg-gradient-to-br from-primary-container to-[#ff8f8f] text-on-primary-container rounded-[24px] rounded-br-sm px-6 py-4 shadow-sm shadow-primary/10">
+<p class="font-body-base text-body-base">I need a plumber at my house in DHA tomorrow morning. It's urgent, a pipe is leaking!</p>
+</div>
+</div>
+<!-- AI Response & Understanding Panel -->
+<div class="flex flex-col space-y-4 max-w-[95%] md:max-w-[80%]">
+<!-- Text Bubble -->
+<div class="flex items-end space-x-3">
+<div class="w-8 h-8 bg-surface-container-highest rounded-full flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-sm text-on-surface-variant">smart_toy</span>
+</div>
+<div class="bg-surface-container-lowest border border-white/50 text-on-surface rounded-[24px] rounded-bl-sm px-6 py-4 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+<p class="font-body-base text-body-base">I've extracted the details for your plumbing request. Please review them below before I proceed to find a professional.</p>
+</div>
+</div>
+<!-- AI Understanding Panel (The Magic) -->
+<div class="ml-11 bg-white/80 backdrop-blur-xl border border-white rounded-[24px] p-6 shadow-[0_8px_32px_rgba(0,0,0,0.04)] relative overflow-hidden group">
+<!-- Header & Confidence -->
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<h3 class="font-headline-md text-body-base font-bold text-on-surface">AI Understanding</h3>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-mono text-label-mono text-primary font-bold">94% MATCH</span>
+<div class="w-24 h-1.5 bg-surface-container-highest rounded-full mt-1 overflow-hidden">
+<div class="h-full bg-primary rounded-full w-[94%]"></div>
+</div>
+</div>
+</div>
+<!-- Extracted Fields Grid -->
+<div class="grid grid-cols-2 gap-4 mb-6">
+<div class="bg-surface-container-lowest rounded-xl p-3 border border-surface-container-high">
+<p class="font-label-mono text-label-mono text-on-surface-variant mb-1 uppercase">Service</p>
+<p class="font-body-base text-body-base font-medium text-on-surface">Plumbing</p>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-3 border border-surface-container-high">
+<p class="font-label-mono text-label-mono text-on-surface-variant mb-1 uppercase">When</p>
+<p class="font-body-base text-body-base font-medium text-on-surface">Tomorrow Morning</p>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-3 border border-surface-container-high">
+<p class="font-label-mono text-label-mono text-on-surface-variant mb-1 uppercase">Location</p>
+<p class="font-body-base text-body-base font-medium text-on-surface">DHA</p>
+</div>
+<div class="bg-primary/10 rounded-xl p-3 border border-primary/20">
+<p class="font-label-mono text-label-mono text-primary mb-1 uppercase flex items-center"><span class="material-symbols-outlined text-[14px] mr-1">warning</span> Urgency</p>
+<p class="font-body-base text-body-base font-bold text-primary">High (Leaking Pipe)</p>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex space-x-3">
+<button class="flex-1 bg-gradient-to-r from-primary to-[#ff6b6b] text-on-primary py-3 rounded-full font-body-base text-body-base font-medium shadow-[0_4px_12px_rgba(174,47,52,0.2)] hover:scale-[1.02] transition-transform">Confirm &amp; Find Pro</button>
+<button class="px-6 py-3 bg-surface-container-low text-on-surface rounded-full font-body-base text-body-base font-medium hover:bg-surface-container-high transition-colors">Edit</button>
+</div>
+<!-- Collapsible 'Why' -->
+<details class="mt-4 border-t border-surface-container-high pt-3">
+<summary class="font-label-mono text-label-mono text-on-surface-variant cursor-pointer hover:text-primary flex items-center list-none outline-none">
+<span class="material-symbols-outlined text-[16px] mr-1">help</span>
+                                Why AI chose this
+                                <span class="material-symbols-outlined text-[16px] ml-auto transition-transform">expand_more</span>
+</summary>
+<div class="mt-3 p-3 bg-surface-bright rounded-lg font-body-sm text-body-sm text-on-surface-variant">
+                                Identified keyword "plumber" for service type. Extracted "DHA" as primary location entity. Flagged "urgent" and "leaking" as high-priority modifiers requiring immediate dispatch protocols.
+                            </div>
+</details>
+</div>
+</div>
+</div>
+<!-- Frosted Glass Input Area -->
+<div class="absolute bottom-4 left-4 right-4 md:left-8 md:right-8 bg-surface-container-lowest/70 backdrop-blur-2xl border border-white rounded-[32px] shadow-[0_-4px_24px_rgba(0,0,0,0.06)] p-2 flex items-center">
+<button class="w-12 h-12 flex items-center justify-center rounded-full text-on-surface-variant hover:bg-surface-container-low transition-colors ml-1">
+<span class="material-symbols-outlined">add</span>
+</button>
+<input class="flex-grow bg-transparent border-none focus:ring-0 font-body-base text-body-base text-on-surface placeholder-on-surface-variant/50 px-4" placeholder="Type or say what you need..." type="text"/>
+<div class="flex items-center space-x-2 mr-1">
+<button class="w-12 h-12 flex items-center justify-center rounded-full bg-primary-container/10 text-primary hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">mic</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center rounded-full bg-primary text-on-primary shadow-sm hover:scale-105 transition-transform">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

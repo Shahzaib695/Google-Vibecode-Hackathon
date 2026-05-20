@@ -1,0 +1,44 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users: own profile only
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Providers: read by all, write by own provider account
+    match /providers/{providerId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == providerId;
+    }
+
+    // Bookings: read/write by user or provider involved
+    match /bookings/{bookingId} {
+      allow read: if request.auth != null && (
+        resource.data.userId == request.auth.uid ||
+        resource.data.providerId == request.auth.uid
+      );
+      allow create: if request.auth != null;
+      allow update: if request.auth != null && (
+        resource.data.userId == request.auth.uid ||
+        resource.data.providerId == request.auth.uid
+      );
+    }
+
+    // Disputes: user or provider involved
+    match /disputes/{disputeId} {
+      allow read, write: if request.auth != null && (
+        resource.data.userId == request.auth.uid ||
+        resource.data.providerId == request.auth.uid
+      );
+      allow create: if request.auth != null;
+    }
+
+    // Antigravity Logs: read by authenticated, write by functions
+    match /antigravityLogs/{logId} {
+      allow read: if request.auth != null;
+      allow write: if false; // Only Cloud Functions write
+    }
+  }
+}
